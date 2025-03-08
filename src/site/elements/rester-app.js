@@ -263,6 +263,7 @@ class RESTerApp extends RESTerThemeMixin(
         return [
             '_routePageChanged(routeData.page)',
             '_expandSidenavChanged(settings.expandSidenav)',
+            '_showDrawerLockChanged(showDrawerLock)',
         ];
     }
 
@@ -372,6 +373,12 @@ class RESTerApp extends RESTerThemeMixin(
         let width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
         this.updateStyles({'--app-drawer-width': width});
     }
+
+    _showDrawerLockChanged(showDrawerLock) {
+        let width = showDrawerLock ? this.appDrawerDefaultWidth : (this.settings.expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        this.updateStyles({'--app-drawer-width': width});
+    }
+
 }
 
 customElements.define(RESTerApp.is, RESTerApp);
