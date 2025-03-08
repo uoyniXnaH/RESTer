@@ -152,6 +152,11 @@ class RESTerApp extends RESTerThemeMixin(
                                     on-tap="_toggleDrawerLockOpen"
                                     hidden$="[[!showDrawerLock]]"
                                 ></paper-icon-button>
+                                <paper-icon-button
+                                    icon="[[_getDrawerExpandToggleIcon(settings.expandSidenav)]]"
+                                    on-tap="_toggleDrawerExpand"
+                                    hidden$="[[showDrawerLock]]"
+                                ></paper-icon-button>
                                 <rester-notifications></rester-notifications>
                             </app-toolbar>
                         </app-header>
@@ -291,8 +296,21 @@ class RESTerApp extends RESTerThemeMixin(
         return this.settings.pinSidenav ? 'lock-outline' : 'lock-open';
     }
 
+    _getDrawerExpandToggleIcon() {
+        return this.settings.expandSidenav ? 'close-fullscreen' : 'open-in-full';
+    }
+
     _toggleDrawerLockOpen() {
         this.set('settings.pinSidenav', !this.settings.pinSidenav);
+    }
+
+    _toggleDrawerExpand() {
+        this.set('settings.expandSidenav', !this.settings.expandSidenav);
+        if (this.settings.expandSidenav) {
+            this.updateStyles({'--app-drawer-width': '640px'});
+        } else {
+            this.updateStyles({'--app-drawer-width': '320px'});
+        }
     }
 
     _onDrawerToggleTapped() {
