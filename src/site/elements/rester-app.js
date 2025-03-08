@@ -248,11 +248,22 @@ class RESTerApp extends RESTerThemeMixin(
                 computed:
                     '_computeShowDrawerLockMediaQuery(responsiveWidthMin, responsiveWidthMax)',
             },
+            appDrawerDefaultWidth: {
+                type: String,
+                value: '320px',
+            },
+            appDrawerExpandedWidth: {
+                type: String,
+                value: '640px',
+            },
         };
     }
 
     static get observers() {
-        return ['_routePageChanged(routeData.page)'];
+        return [
+            '_routePageChanged(routeData.page)',
+            '_expandSidenavChanged(settings.expandSidenav)',
+        ];
     }
 
     static get resterHotkeys() {
@@ -306,11 +317,6 @@ class RESTerApp extends RESTerThemeMixin(
 
     _toggleDrawerExpand() {
         this.set('settings.expandSidenav', !this.settings.expandSidenav);
-        if (this.settings.expandSidenav) {
-            this.updateStyles({'--app-drawer-width': '640px'});
-        } else {
-            this.updateStyles({'--app-drawer-width': '320px'});
-        }
     }
 
     _onDrawerToggleTapped() {
@@ -360,6 +366,11 @@ class RESTerApp extends RESTerThemeMixin(
 
     _showEnvironmentSelectDialog() {
         dialogs.environmentSelect.show();
+    }
+
+    _expandSidenavChanged(expandSidenav) {
+        let width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        this.updateStyles({'--app-drawer-width': width});
     }
 }
 
