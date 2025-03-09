@@ -371,7 +371,10 @@ class RESTerApp extends RESTerThemeMixin(
 
     _expandSidenavChanged(expandSidenav) {
         let width = this.showDrawerLock ? this.appDrawerDefaultWidth : (expandSidenav ? this.appDrawerExpandedWidth : this.appDrawerDefaultWidth);
+        let page = this.page || 'request';
         this.updateStyles({'--app-drawer-width': width});
+        this.page = '';
+        this.page = page;
     }
 
     _showDrawerLockChanged(showDrawerLock) {
